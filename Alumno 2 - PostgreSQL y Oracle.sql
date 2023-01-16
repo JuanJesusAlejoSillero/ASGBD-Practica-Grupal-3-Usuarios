@@ -65,7 +65,7 @@ BEGIN
 END;
 /
 
---El procedimiento que te presenté anteriormente solo compara caracteres en la misma posición de ambas cadenas. Si deseas contar los caracteres iguales en cualquier posición de ambas cadenas, puedes utilizar una estructura de tabla hash para almacenar los caracteres de la primera cadena y luego recorrer la segunda cadena para verificar si cada carácter se encuentra en la tabla hash. Si se encuentra, se incrementa el contador. Aquí te muestro un ejemplo de cómo podría ser el nuevo procedimiento:
+--Realiza un procedimiento llamado MostrarPrivilegiosdelRol que reciba el nombre de un rol y muestre los privilegios de sistema y los privilegios sobre objetos que lo componen.
 
 CREATE OR REPLACE PROCEDURE P_MUESTRAPRIVROL (P_ROL VARCHAR2)
 IS
