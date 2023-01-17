@@ -7,12 +7,13 @@
 - [**ASGBD - Práctica Grupal 3: Usuarios**](#asgbd---práctica-grupal-3-usuarios)
   - [**Alumno 4 - MongoDB y Oracle**](#alumno-4---mongodb-y-oracle)
   - [**MongoDB**](#mongodb)
+    - [**Preparación del escenario**](#preparación-del-escenario)
     - [**Ejercicio 1**](#ejercicio-1)
     - [**Ejercicio 2**](#ejercicio-2)
     - [**Ejercicio 3**](#ejercicio-3)
     - [**Ejercicio 4**](#ejercicio-4)
   - [**Oracle**](#oracle)
-    - [**Preparación del escenario**](#preparación-del-escenario)
+    - [**Preparación del escenario**](#preparación-del-escenario-1)
     - [**Ejercicio 1**](#ejercicio-1-1)
     - [**Ejercicio 2**](#ejercicio-2-1)
 
@@ -20,29 +21,296 @@
 
 ## **MongoDB**
 
+### **Preparación del escenario**
+
+Pasos a seguir para dejar todo listo para hacer las comprobaciones de los siguientes ejercicios empezando desde una instalación limpia de MongoDB 6:
+
+1. Entrar en la consola de MongoDB y crear el usuario administrador:
+
+    ```bash
+    mongosh
+    ```
+
+    ```js
+    use admin
+
+    db.createUser({user: 'admin', pwd: 'admin', roles: [{role: 'userAdminAnyDatabase', db: 'admin'}, {role: 'readWriteAnyDatabase', db: 'admin'}]})
+
+    exit
+    ```
+
+2. Iniciar *mongosh* como administrador:
+
+    ```bash
+    mongosh -u admin -p admin --authenticationDatabase admin
+    ```
+
 ### **Ejercicio 1**
 
 > **1. Averigua si existe la posibilidad en MongoDB de limitar el acceso de un usuario a los datos de una colección determinada.**
 
+Sí, se puede, usando roles.
 
+Procedimiento para comprobarlo:
+
+1. Creo una base de datos y una colección:
+
+    ```js
+    use PRAC5
+
+    db.createCollection("COLPRAC5")
+    ```
+
+    ![1](img/Alumno%204/MongoDB/1.png)
+
+2. Inserto algunos datos en la colección
+
+    ```js
+    db.COLPRAC5.insertMany([
+        {ID: 1, NOMBRE: "Juan"},
+        {ID: 2, NOMBRE: "Pedro"},
+        {ID: 3, NOMBRE: "Luis"},
+        {ID: 4, NOMBRE: "Ana"},
+        {ID: 5, NOMBRE: "María"},
+        {ID: 6, NOMBRE: "Laura"},
+        {ID: 7, NOMBRE: "Antonio"},
+        {ID: 8, NOMBRE: "Javier"},
+        {ID: 9, NOMBRE: "Sara"},
+        {ID: 10, NOMBRE: "Marta"}
+    ])
+    ```
+
+    ![2](img/Alumno%204/MongoDB/2.png)
+
+3. Creo un usuario con permisos de lectura y escritura en la base de datos *PRAC5*:
+
+    ```js
+    db.createUser({user: 'USERPRAC5', pwd: 'USERPRAC5', roles: ["readWrite"]})
+
+    db.getUser("USERPRAC5")
+    ```
+
+    ![3](img/Alumno%204/MongoDB/3.png)
+
+4. Salgo de la consola de administrador, entro con el nuevo usuario y compruebo que puedo acceder a la base de datos y a la colección:
+
+    ```js
+    exit
+    ```
+
+    ```bash
+    mongosh -u USERPRAC5 -p USERPRAC5 --authenticationDatabase PRAC5
+
+    use PRAC5
+
+    db.COLPRAC5.find()
+    ```
+
+    ![4](img/Alumno%204/MongoDB/4.png)
+
+5. Salgo de la consola de usuario y entro de nuevo como administrador. Le quito los permisos de lectura y escritura sobre la base de datos *PRAC5* al usuario *USERPRAC5*, le asigno un nuevo rol que únicamente le permita leer la colección *COLPRAC5*. Finalmente creo una colección llamada *COLSECRETAPRAC5* e inserto documentos en ella para más tarde comprobar que el usuario no puede acceder a tales documentos:
+
+    ```js
+    exit
+    ```
+
+    ```bash
+    mongosh -u admin -p admin --authenticationDatabase admin
+    ```
+
+    ```js
+    use PRAC5
+
+    db.revokeRolesFromUser("USERPRAC5", [{role: "readWrite", db: "PRAC5"}])
+
+    db.createRole({role: "readCOLPRAC5", privileges: [{resource: {db: "PRAC5", collection: "COLPRAC5"}, actions: ["find"]}], roles: []})
+
+    db.grantRolesToUser("USERPRAC5", [{role: "readCOLPRAC5", db: "PRAC5"}])
+
+    db.createCollection("COLSECRETAPRAC5")
+
+    db.COLSECRETAPRAC5.insertMany([
+        {ID: 1, NOMBRE: "Bulbasaur", TIPO: "Planta"},
+        {ID: 2, NOMBRE: "Charmander", TIPO: "Fuego"},
+        {ID: 3, NOMBRE: "Squirtle", TIPO: "Agua"},
+        {ID: 4, NOMBRE: "Pikachu", TIPO: "Eléctrico"},
+        {ID: 5, NOMBRE: "Eevee", TIPO: "Normal"}
+    ])
+
+    show collections
+
+    db.COLSECRETAPRAC5.find()
+    ```
+
+    ![5](img/Alumno%204/MongoDB/5.png)
+
+6. Salgo de la consola de administrador y entro con el usuario *USERPRAC5* para comprobar que no puede leer la colección *COLSECRETAPRAC5* pero sí la colección *COLPRAC5*:
+
+    ```js
+    exit
+    ```
+
+    ```bash
+    mongosh -u USERPRAC5 -p USERPRAC5 --authenticationDatabase PRAC5
+    ```
+
+    ```js
+    use PRAC5
+
+    db.COLSECRETAPRAC5.find()
+
+    db.COLPRAC5.find()
+    ```
+
+    ![6](img/Alumno%204/MongoDB/6.png)
+
+Vemos que efectivamente, podemos limitar el acceso de un usuario a una colección determinada mediante el uso de roles.
 
 ### **Ejercicio 2**
 
-> **2. Averigua si en MongoDB existe el concepto de privilegio del sistema y muestra las diferencias más importantes con ORACLE.**
+> **2. Averigua si en MongoDB existe el concepto de privilegio del sistema y muestra las diferencias más importantes con Oracle.**
 
+No, no existe un equivalente directo al concepto de privilegios de sistema.
 
+En Oracle los [privilegios del sistema](https://docs.oracle.com/database/121/TTSQL/privileges.htm#TTSQL339) permiten realizar una acción particular sobre cualquier objeto o sobre cualquier objeto de un tipo concreto. Esto incluye tablas, vistas, índices, funciones, procedimientos, paquetes... Solo el administrador o un usuario con el privilegio *ADMIN* puede otorgar o revocar este tipo de privilegios.
+
+En cambio, en MongoDB para cubrir este tipo de necesidades se utilizan los [roles predefinidos](https://www.mongodb.com/docs/manual/reference/built-in-roles/). Estos roles son conjuntos de privilegios que se pueden asignar a un usuario.
+
+Los privilegios de un rol especifican qué acciones se pueden realizar sobre qué recursos. Por ejemplo, en el [ejercicio anterior](#ejercicio-1) se le revocó el rol *readWrite* al usuario *USERPRAC5* sobre la base de datos *PRAC5*. Esto significa que el usuario ya no puede realizar ninguna acción de lectura o escritura sobre la base de datos *PRAC5*.
+
+Más información respecto a los roles predefinidos de MongoDB y como asignadorlos en el [siguiente ejercicio](#ejercicio-3).
 
 ### **Ejercicio 3**
 
 > **3. Explica los roles por defecto que incorpora MongoDB y como se asignan a los usuarios.**
 
+Según [la documentación oficial de MongoDB](https://www.mongodb.com/docs/manual/reference/built-in-roles/), los roles predefinidos (o por defecto) que incorpora son los siguientes:
 
+- **Roles de usuario**:
+  - **read**: Permite leer datos de una base de datos o colección.
+  - **readWrite**: Proporciona todos los privilegios del rol *read*, más la capacidad de modificar datos en todas las colecciones que no son del sistema y la colección *system.js*.
+
+- **Roles de administración de base de datos**:
+  - **dbAdmin**: Brinda la capacidad de realizar tareas administrativas, como tareas relacionadas con esquemas, indexación y recopilación de estadísticas. Aunque pudiera parecerlo por su nombre, este rol no otorga privilegios para la gestión de usuarios y roles.
+  - **dbOwner**: El propietario de la base de datos puede realizar cualquier acción administrativa en la base de datos. Este rol combina los privilegios otorgados por los roles *readWrite*, *dbAdmin* y *userAdmin*.
+  - **userAdmin**: Permite crear y modificar roles y usuarios en la base de datos actual. Dado que la función *userAdmin* permite a los usuarios otorgar privilegios a cualquier usuario, incluidos ellos mismos, la función también **proporciona indirectamente acceso de superusuario** a la base de datos o, si se limita a la base de datos de administración, al clúster.
+
+- **Roles de administración de clúster**:
+  - **clusterAdmin**: Proporciona el mayor acceso posible a la administración de clústeres. Este rol combina los privilegios otorgados por los roles *clusterManager*, *clusterMonitor* y *hostManager*. Además, el rol proporciona la acción *dropDatabase*.
+  - **clusterManager**: Proporciona acciones de gestión y seguimiento sobre el clúster. Un usuario con este rol puede acceder a las bases de datos locales y de configuración, que se utilizan en la fragmentación (*sharding*) y la replicación, respectivamente.
+  - **clusterMonitor**: Proporciona acceso de solo lectura a las herramientas de monitoreo, como [*MongoDB Cloud Manager*](https://cloud.mongodb.com/?tck=docs_server) y el agente de supervisión de [*Ops Manager*](https://www.mongodb.com/docs/ops-manager/current/).
+  - **hostManager**: Brinda la capacidad de monitorear y administrar servidores.
+
+- **Roles de backup y restauración**:
+  - **backup**: Proporciona los privilegios mínimos necesarios para realizar copias de seguridad de los datos. Este rol proporciona suficientes privilegios para usar *mongodump* para hacer una copia de seguridad de una instancia *mongod* completa.
+  - **restore**: Proporciona los privilegios necesarios para restaurar copias de seguridad mientras que dichas copias no incluyan, datos de la colección *system.profile* y se ejecute *mongorestore* sin la opción *--oplogReplay*.
+
+- **Roles de todas las bases de datos**:
+  - **readAnyDatabase**: Proporciona los mismos privilegios de solo lectura que *read* en todas las bases de datos excepto *local* y *config*. El rol también proporciona la acción *listDatabases* en el clúster como un todo.
+  - **readWriteAnyDatabase**: Proporciona los mismos privilegios que *readWrite* en todas las bases de datos excepto *local* y *config*. El rol también proporciona la acción *listDatabases* en el clúster como un todo y la acción *compactStructuredEncryptionData*.
+  - **userAdminAnyDatabase**: Proporciona el mismo acceso a las operaciones de administración de usuarios que *userAdmin* en todas las bases de datos excepto *local* y *config*.
+  - **dbAdminAnyDatabase**: Proporciona los mismos privilegios que *dbAdmin* en todas las bases de datos excepto *local* y *config*. El rol también proporciona la acción *listDatabases* en el clúster como un todo.
+
+- **Roles de superusuario**:
+  - **root**: Proporciona privilegios completos en todos los recursos. En concreto combinan los privilegios otorgados por los roles *readWriteAnyDatabase*, *dbAdminAnyDatabase*, *userAdminAnyDatabase*, *clusterAdmin*, *restore*, *backup* y además, otorga el privilegio *validate* en las colecciones *system.*.
+
+- **Rol interno**:
+  - **__system**: MongoDB asigna esta función a los objetos de usuario que representan a los miembros del clúster: miembros del conjunto de réplicas e instancias de *mongos*. El rol da derecho a su titular a tomar cualquier acción contra cualquier objeto en la base de datos. **Este rol no se debe asignar a ningún usuario**.
+
+Para asignar uno o varios roles a un usuario, se utiliza el comando `grantRolesToUser()`:
+
+```js
+db.grantRolesToUser(
+   "<usuario>",
+   [
+      { role: "<rol>", db: "<base de datos>" },
+      { role: "<rol>", db: "<base de datos>" },
+      ...
+   ]
+)
+```
+
+Si queremos que los roles estén ya asignados al usuario desde el momento de su creación, debemos crearlo con la siguiente sintaxis:
+
+```js
+db.createUser(
+   {
+        user: "<usuario>",
+        pwd: "<contraseña>",
+        roles: [
+            { role: "<rol>", db: "<base de datos>" },
+            { role: "<rol>", db: "<base de datos>" },
+            ...
+        ]
+    }
+)
+```
+
+Por último, si quisiéramos revocar un rol a un usuario, como hicimos antes, sería de la siguiente manera:
+
+```js
+db.revokeRolesFromUser(
+   "<usuario>",
+   [
+      { role: "<rol>", db: "<base de datos>" },
+      { role: "<rol>", db: "<base de datos>" },
+      ...
+   ]
+)
+```
 
 ### **Ejercicio 4**
 
 > **4. Explica como puede consultarse el diccionario de datos de MongoDB para saber que roles han sido concedidos a un usuario y qué privilegios incluyen.**
 
+Si queremos consultar los roles de un usuario y los privilegios que estos incluyen, podemos hacerlo elegantemente de la siguiente manera, aunque esto nos dará la información del usuario que estamos usando en ese momento:
 
+```js
+db.runCommand(
+   {
+      connectionStatus: 1,
+      showPrivileges: true
+   }
+)
+```
+
+![7](img/Alumno%204/MongoDB/7.png)
+
+O, para obtener la información de un usuario en concreto:
+
+```js
+db.runCommand(
+   {
+      usersInfo: {
+         user: "<usuario>",
+            db: "<base de datos>"
+        },
+        showPrivileges: true
+    }
+)
+```
+
+![8](img/Alumno%204/MongoDB/8.png)
+
+No obstante, si únicamente queremos obtener los roles de un usuario:
+
+```js
+use <base de datos>
+
+db.getUser("<usuario>")
+```
+
+![9](img/Alumno%204/MongoDB/9.png)
+
+Y, si quisiéramos ver los privilegios de un rol:
+
+```js
+use <base de datos>
+
+db.getRole("<rol>", { showPrivileges: true })
+```
+
+![10](img/Alumno%204/MongoDB/10.png)
 
 ---
 
@@ -53,6 +321,10 @@
 Pasos a seguir para dejar todo listo para hacer las comprobaciones de los siguientes dos ejercicios empezando desde una instalación limpia de Oracle 21c:
 
 1. Entrar en SQLPlus como administrador.
+
+    ```bash
+    sqlplus / as sysdba
+    ```
 
 2. Habilitar el modo script y la salida por pantalla, así como aumentar el tamaño de las líneas y páginas:
 
