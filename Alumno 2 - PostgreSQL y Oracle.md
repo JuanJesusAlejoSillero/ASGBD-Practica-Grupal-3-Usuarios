@@ -1,20 +1,25 @@
 # **ASGBD - Práctica Grupal 3: Usuarios**
 
+## **Alumno 2 - PostgreSQL y Oracle**
+
 **Tabla de contenidos:**
 
 - [**ASGBD - Práctica Grupal 3: Usuarios**](#asgbd---práctica-grupal-3-usuarios)
-  - [**Postgres**](#Postgres)
+  - [**Alumno 2 - PostgreSQL y Oracle**](#alumno-2---postgresql-y-oracle)
+  - [**PostgreSQL**](#postgresql)
     - [**Ejercicio 1**](#ejercicio-1)
     - [**Ejercicio 2**](#ejercicio-2)
     - [**Ejercicio 3**](#ejercicio-3)
     - [**Ejercicio 4**](#ejercicio-4)
+    - [**Ejercicio 5**](#ejercicio-5)
+    - [**Ejercicio 6**](#ejercicio-6)
   - [**Oracle**](#oracle)
     - [**Ejercicio 1**](#ejercicio-1-1)
     - [**Ejercicio 2**](#ejercicio-2-1)
 
 ---
 
-## **Postgres**
+## **PostgreSQL**
 
 ### **Ejercicio 1**
 
@@ -22,18 +27,18 @@
 
 Los privilegios, son permisos especiales otorgados a usuarios o roles para llevar a vabo ciertas acciones en el sistema.
 
-Algunos de los privilegios de sistema más usado son:
+Algunos de los privilegios de sistema más usados son:
 
-* Create: Permite al usuario crear objetos en el esquema, como tablas, vistas y índices.
-* Usage: Permite al usuario utilizar un esquema o una secuencia.
-* Select: Permite al usuario leer datos de las tablas para poder realizar una consulta.
-* Insert: Permite al usuario insertar nuevas filas en las tablas.
-* Update: Permite al usuario modificar filas existentes en las tablas.
-* Delete: Permite al usuario eliminar filas de las tablas.
-* Truncate: Permite al usuario vaciar las tablas (eliminar todas las filas).
-* References: Permite al usuario crear y eliminar claves foráneas.
-* Trigger: Permite al usuario crear y eliminar triggers.
-* Create procedure: Permite al usuario crear y eliminar procedimientos almacenados.
+- Create: Permite al usuario crear objetos en el esquema, como tablas, vistas y índices.
+- Usage: Permite al usuario utilizar un esquema o una secuencia.
+- Select: Permite al usuario leer datos de las tablas para poder realizar una consulta.
+- Insert: Permite al usuario insertar nuevas filas en las tablas.
+- Update: Permite al usuario modificar filas existentes en las tablas.
+- Delete: Permite al usuario eliminar filas de las tablas.
+- Truncate: Permite al usuario vaciar las tablas (eliminar todas las filas).
+- References: Permite al usuario crear y eliminar claves foráneas.
+- Trigger: Permite al usuario crear y eliminar triggers.
+- Create procedure: Permite al usuario crear y eliminar procedimientos almacenados.
 
 En este ejemplo, asigno priviliegios a un usuario sobre un esquema:
 
@@ -67,18 +72,18 @@ ALTER ROLE <<NOMBRE-ROL>>
 
 Algunas de las opciones que se le pueden asignar a un rol son:
 
-*  ADMIN: opción para indicar el rol o los roles de los formará parte con derecho a agregar a otros roles en este.
-* BYPASSRL o NOBYPASSRLS: opción para omitir los sistemas de seguridad de fila de las tablas.
-* CREATEDB o NOCREATEDB: opción para crear bases de datos.
-* CREATEROLE o NOCREATEROLE: opción para crear nuevos roles.
-* CONNECTION LIMIT: limita el número de sesiones concurrentes.
-* INHERIT o NOINHERIT: opción para determinar si hereda los privilegios de los roles de los que es miembro.
-* IN ROLE: opción para indicar los roles de los que formará parte.
-* LOGIN o NOLOGIN: opción para crear sesiones. Para que el usuario pueda o no iniciar sesion.
-* REPLICATION o NOREPLICATION: opción para controlar la transmisión.
-* SUPERUSER o NOSUPERUSER: se agregan los privilegios de superusuario.
-* [ENCRYPTED] PASSWORD: asigna una contraseña al rol/usuario.
-* VALID UNTIL: indica la expiración del rol/usuario.
+- ADMIN: opción para indicar el rol o los roles de los formará parte con derecho a agregar a otros roles en este.
+- BYPASSRL o NOBYPASSRLS: opción para omitir los sistemas de seguridad de fila de las tablas.
+- CREATEDB o NOCREATEDB: opción para crear bases de datos.
+- CREATEROLE o NOCREATEROLE: opción para crear nuevos roles.
+- CONNECTION LIMIT: limita el número de sesiones concurrentes.
+- INHERIT o NOINHERIT: opción para determinar si hereda los privilegios de los roles de los que es miembro.
+- IN ROLE: opción para indicar los roles de los que formará parte.
+- LOGIN o NOLOGIN: opción para crear sesiones. Para que el usuario pueda o no iniciar sesion.
+- REPLICATION o NOREPLICATION: opción para controlar la transmisión.
+- SUPERUSER o NOSUPERUSER: se agregan los privilegios de superusuario.
+- [ENCRYPTED] PASSWORD: asigna una contraseña al rol/usuario.
+- VALID UNTIL: indica la expiración del rol/usuario.
 
 ### **Ejercicio 2**
 
@@ -89,7 +94,7 @@ Me conecto a la base de datos aeropuerto y le doy permisos sobre la tabla viajes
 ```txt
 aeropuerto=# GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE viajes TO alemd;
 GRANT
-``` 
+```
 
 Para revocar los permisos usamos la siguiente instrucción:
 
@@ -105,20 +110,20 @@ REVOKE
 
 Como ya hemos mencionado anteriormente, sí existe el concepto de rol en Postgres, y lo usamos para agrupar permisos para asignarselos a los usuarios de una forma correcta. Las diferencias son las siguientes:
 
-* La primera diferencia, es que en Postgres se utiliza el término usuario pero solo se trabaja con roles.
+- La primera diferencia, es que en Postgres se utiliza el término usuario pero solo se trabaja con roles.
 
-* mientras que en Oracle los roles son grupos de usuarios y/o de otros roloes, en Postgres los roles son los propietarios de las bases de datos y pueden estar compuesto por otros roles.
+- mientras que en Oracle los roles son grupos de usuarios y/o de otros roloes, en Postgres los roles son los propietarios de las bases de datos y pueden estar compuesto por otros roles.
 
-* No hay diferencias en la sintaxis a la hora de crear roles y asignarle privilegios a estos en ambos SGBD.
+- No hay diferencias en la sintaxis a la hora de crear roles y asignarle privilegios a estos en ambos SGBD.
 
-* En oracle puedes asignar un rol a un usuario mientras que en Postgres no puedes asignar un rol a un usuario ya que no existen como tal.
+- En oracle puedes asignar un rol a un usuario mientras que en Postgres no puedes asignar un rol a un usuario ya que no existen como tal.
 
-* Para ver los roles asignados a un usuario en oracle se usa la siguiente consulta:
+- Para ver los roles asignados a un usuario en oracle se usa la siguiente consulta:
 
 ```sql
-  select grantee, granted_role from dba_role_privs
-  where grantee = upper ('&grantee')
-  order by grantee;
+select grantee, granted_role from dba_role_privs
+where grantee = upper ('&grantee')
+order by grantee;
 ```
 
 En Postgres basta con ejecutar `\du`.
@@ -127,7 +132,7 @@ En Postgres basta con ejecutar `\du`.
 
 > **4. Averigua si existe el concepto de perfil como conjunto de límites sobre el uso de recursos o sobre la contraseña en Postgres y señala las diferencias con los perfiles de ORACLE.**
 
-En PostgreSQL no existen los perfiles ya que todas las delimitaciones se realizan mediante objetos, sin embargo, buscando información, en la versión profesional de postgres(Postgres Pro) sí existen los perfiles. 
+En PostgreSQL no existen los perfiles ya que todas las delimitaciones se realizan mediante objetos, sin embargo, buscando información, en la versión profesional de postgres(Postgres Pro) sí existen los perfiles.
 
 ### **Ejercicio 5**
 
@@ -143,7 +148,6 @@ aeropuerto=# SELECT PRIVILEGE_TYPE, TABLE_NAME, TABLE_SCHEMA, TABLE_CATALOG FROM
  UPDATE         | viajes     | public       | aeropuerto
  DELETE         | viajes     | public       | aeropuerto
 (3 filas)
-
 ```
 
 ### **Ejercicio 6**
@@ -207,6 +211,7 @@ aeropuerto=# SELECT GRANTEE FROM INFORMATION_SCHEMA.TABLE_PRIVILEGES WHERE TABLE
         RETURN TRUE;
     END;
     /
+
     CREATE OR REPLACE PROCEDURE P_MISMALONGITUD (P_PASSWDNEW VARCHAR2, P_PASSWDOLD VARCHAR2)
     IS
     BEGIN
@@ -215,6 +220,7 @@ aeropuerto=# SELECT GRANTEE FROM INFORMATION_SCHEMA.TABLE_PRIVILEGES WHERE TABLE
         END IF;
     END;
     /
+
     CREATE OR REPLACE FUNCTION F_ERRORES (P_REPE NUMBER, P_CUENTANUM NUMBER, P_CUENTALETRA NUMBER)
     RETURN NUMBER
     IS
@@ -227,6 +233,7 @@ aeropuerto=# SELECT GRANTEE FROM INFORMATION_SCHEMA.TABLE_PRIVILEGES WHERE TABLE
         END CASE;
     END;
     /
+
     CREATE OR REPLACE PROCEDURE P_COMPARACARACTERES(P_CARACTER VARCHAR2, P_PASSWD VARCHAR2, P_LETRAIGUAL IN OUT VARCHAR2)
     IS
     BEGIN
@@ -237,6 +244,7 @@ aeropuerto=# SELECT GRANTEE FROM INFORMATION_SCHEMA.TABLE_PRIVILEGES WHERE TABLE
         END LOOP;
     END;
     /
+
     CREATE OR REPLACE PROCEDURE P_CUENTANUMYLETRAS (P_CARACTER VARCHAR2, P_NUM IN OUT NUMBER, P_LETRA IN OUT NUMBER)
     IS
     BEGIN
@@ -269,7 +277,7 @@ aeropuerto=# SELECT GRANTEE FROM INFORMATION_SCHEMA.TABLE_PRIVILEGES WHERE TABLE
     Concesion terminada correctamente.
     ```
 
-5. Asignamos el perfil CONTRASEÑASEGURA al usuario creado anteriormente.
+6. Asignamos el perfil CONTRASEÑASEGURA al usuario creado anteriormente.
 
     ```txt
     SQL> ALTER USER EJ7PASSWD PROFILE CONTRASENASEGURA;
@@ -277,7 +285,7 @@ aeropuerto=# SELECT GRANTEE FROM INFORMATION_SCHEMA.TABLE_PRIVILEGES WHERE TABLE
     Usuario modificado.
     ```
 
-6. Nos logueamos con el usuario al que le hemos asignado el perfil.
+7. Nos logueamos con el usuario al que le hemos asignado el perfil.
 
     ```txt
     SQL> connect EJ7PASSWD/123456789;
@@ -285,7 +293,7 @@ aeropuerto=# SELECT GRANTEE FROM INFORMATION_SCHEMA.TABLE_PRIVILEGES WHERE TABLE
     SQL> 
     ```
 
-7. Cambiamos la contraseña por una no válida para comprobar que funciona correctamente:
+8. Cambiamos la contraseña por una no válida para comprobar que funciona correctamente:
 
     Hemos provocado que salte el error de que la contraseña tiene la misma longitud.
 
@@ -297,7 +305,6 @@ aeropuerto=# SELECT GRANTEE FROM INFORMATION_SCHEMA.TABLE_PRIVILEGES WHERE TABLE
     ORA-28003: fallo en la verificacion de la contrase?a especificada
     ORA-20100: La nueva contrase??a no puede tener la misma longitud que la
     anterior.
-
     ```
 
     Ahora provocamos que salte el error de que la contraseña debe de tener al menos 5 caracteres distintos:
@@ -309,7 +316,6 @@ aeropuerto=# SELECT GRANTEE FROM INFORMATION_SCHEMA.TABLE_PRIVILEGES WHERE TABLE
     ERROR en linea 1:
     ORA-28003: fallo en la verificacion de la contrase?a especificada
     ORA-20101: La nueva contrase??a debe de tener al menos 5 car??cteres distintos
-
     ```
 
     Ahora haremos que el usuario cambie la contraseña correctamente:
@@ -318,7 +324,6 @@ aeropuerto=# SELECT GRANTEE FROM INFORMATION_SCHEMA.TABLE_PRIVILEGES WHERE TABLE
     SQL> ALTER USER EJ7PASSWD IDENTIFIED BY "usuario" REPLACE "123456789";
 
     Usuario modificado.
-
     ```
 
 ### **Ejercicio 2**
@@ -397,7 +402,7 @@ aeropuerto=# SELECT GRANTEE FROM INFORMATION_SCHEMA.TABLE_PRIVILEGES WHERE TABLE
         END LOOP;
     END ;
     /
-    
+
     CREATE OR REPLACE FUNCTION F_EXISTSROL(P_ROL VARCHAR2)
     RETURN NUMBER
     IS
@@ -460,7 +465,6 @@ aeropuerto=# SELECT GRANTEE FROM INFORMATION_SCHEMA.TABLE_PRIVILEGES WHERE TABLE
     EL USUARIO ALEMD TIENE PRIVILEGIOS SELECT SOBRE LA TABLA ALUMNOS
 
     Procedimiento PL/SQL terminado correctamente.
-
     ```
 
     Si ponemos un rol que no existe ocurre lo siguiente:
@@ -470,10 +474,8 @@ aeropuerto=# SELECT GRANTEE FROM INFORMATION_SCHEMA.TABLE_PRIVILEGES WHERE TABLE
     EL ROL fsdfsfsdf NO EXISTE.
     
     Procedimiento PL/SQL terminado correctamente.
-    
     ```
 
 ---
-## **Documento realizado por:**
 
- ✒️ **Alejandro Montes Delgado** - *2º ASIR*
+✒️ **Documentación realizada por Alejandro Montes Delgado.**
