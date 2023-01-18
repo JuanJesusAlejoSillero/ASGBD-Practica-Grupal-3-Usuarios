@@ -386,9 +386,9 @@ Hecho esto ya tendríamos todo listo para empezar con los ejercicios.
 
 > **1. Realiza un procedimiento llamado *MostrarObjetosAccesibles* que reciba un nombre de usuario y muestre todos los objetos a los que tiene acceso.**
 
-[Según los apuntes de Raúl sobre gestión de usuarios en Oracle](https://educacionadistancia.juntadeandalucia.es/centros/sevilla/mod/resource/view.php?id=105462), la tabla que hay que consultar para obtener los *GRANTS* de un usuario sobre un objeto es *DBA_TAB_PRIVS*. Esto es correcto, sin embargo, esta tabla también contiene los *GRANTS* sobre objetos de los roles, por lo que no será necesario consultar la tabla *DBA_ROLE_PRIVS* como indican los apuntes. Teniendo esto en cuenta, los pasos a seguir para resolver este ejercicio son los siguientes:
+[Según los apuntes de Raúl sobre gestión de usuarios en Oracle](https://educacionadistancia.juntadeandalucia.es/centros/sevilla/mod/resource/view.php?id=105462), la vista que hay que consultar para obtener los *GRANTS* de un usuario sobre un objeto es *DBA_TAB_PRIVS*. Esto es correcto, sin embargo, esta vista también contiene los *GRANTS* sobre objetos de los roles, por lo que no será necesario consultar la vista *DBA_ROLE_PRIVS* como indican los apuntes. Teniendo esto en cuenta, los pasos a seguir para resolver este ejercicio son los siguientes:
 
-1. Ya que la tabla *DBA_TAB_PRIVS* contiene tanto usuarios como roles, tengo que detectar si se ha introducido el nombre de un usuario para evitar errores. Para ello, primero crearé un procedimiento que, en caso de recibir un usuario no existente devolverá un un *0*.
+1. Ya que la vista *DBA_TAB_PRIVS* contiene tanto usuarios como roles, tengo que detectar si se ha introducido el nombre de un usuario para evitar errores. Para ello, primero crearé un procedimiento que, en caso de recibir un usuario no existente devolverá un un *0*.
 
     ```sql
     -- Procedimiento P_USUARIO_EXISTE:
@@ -473,7 +473,7 @@ Hecho esto ya tendríamos todo listo para empezar con los ejercicios.
 
     ![4](img/Alumno%204/Oracle/4.png)
 
-3. Ahora, creo un procedimiento que buscará en la tabla *DBA_TAB_PRIVS* los objetos a los cuales, el usuario (o rol) que le pasemos tiene acceso de forma directa:
+3. Ahora, creo un procedimiento que buscará en la vista *DBA_TAB_PRIVS* los objetos a los cuales, el usuario (o rol) que le pasemos tiene acceso de forma directa:
 
     ```sql
     -- Procedimiento P_BUSCAR_OBJETOS_ACCESIBLES_DIRECTA:
@@ -576,7 +576,7 @@ Pasos a seguir teniendo en cuenta que se ha seguido la ejecución del [ejercicio
 
 1. De nuevo y por el mismo motivo que el explicado anteriormente, primero usaré un procedimiento para distinguir si lo pasado por parámetro es un usuario que existe (no devolverá nada) o que no existe (devolverá *0*). Esto ya lo hice en el [ejercicio anterior](#ejercicio-1-1) (procedimiento *P_USUARIO_EXISTE*), por lo que no volveré a redactarlo aquí.
 
-2. Una vez que ya tengo la certeza de estar tratando con un usuario, creo un procedimiento que buscará en la tabla *DBA_TAB_PRIVS* el nombre del usuario (o rol, esto será útil para más tarde) y, si tiene el privilegio indicado sobre el objeto indicado, devolverá *1*, si no, no devolverá nada.
+2. Una vez que ya tengo la certeza de estar tratando con un usuario, creo un procedimiento que buscará en la vista *DBA_TAB_PRIVS* el nombre del usuario (o rol, esto será útil para más tarde) y, si tiene el privilegio indicado sobre el objeto indicado, devolverá *1*, si no, no devolverá nada.
 
     ```sql
     -- Procedimiento P_BUSCAR_PRIVILEGIO:
