@@ -5,7 +5,7 @@
 **Tabla de contenidos:**
 
 - [**ASGBD - Práctica Grupal 3: Usuarios**](#asgbd---práctica-grupal-3-usuarios)
-  - [**Alumno 1 - PostgreSQL y Oracle**](#alumno-1---oracle)
+  - [**Alumno 1 - Oracle**](#alumno-1---oracle)
   - [**Oracle**](#oracle)
     - [**Ejercicio 1**](#ejercicio-1)
     - [**Ejercicio 2**](#ejercicio-2)
@@ -30,8 +30,6 @@
     - [**Ejercicio 21**](#ejercicio-21)
     - [**Ejercicio 22**](#ejercicio-22)
     - [**Ejercicio 23**](#ejercicio-23)
-    - [**Ejercicio 24**](#ejercicio-24)
-    - [**Ejercicio 25**](#ejercicio-25)
 
 ---
 
@@ -39,14 +37,16 @@
 
 ### **Ejercicio 1**
 
+```bash
 alter session set "_ORACLE_SCRIPT"=true;
+```
 
 > **1. Crea un rol ROLPRACTICA1 con los privilegios necesarios para conectarse a la base de datos, crear tablas y vistas e insertar datos en la tabla EMP de SCOTT.**
 
-   ```sql
-   CREATE ROLE ROLPRACTICA1;
-   GRANT CONNECT,CREATE TABLE,CREATE VIEW,INSERT ON SCOTT.EMP TO ROLPRACTICA1;
-   ```
+    ```sql
+    CREATE ROLE ROLPRACTICA1;
+    GRANT CONNECT,CREATE TABLE,CREATE VIEW,INSERT ON SCOTT.EMP TO ROLPRACTICA1;
+    ```
 
 ### **Ejercicio 2**
 
@@ -140,7 +140,6 @@ INSERT INTO SCOTT.EMP (empno, ename, job, sal, deptno)
 VALUES (9000, 'Paco', 'MANAGER', 3000, 20);
 ```
 
-
 ### **Ejercicio 8**
 
 > **8. Quita a USRPRACTICA1 el privilegio de crear vistas. Comprueba que ya no puede hacerlo.**
@@ -165,7 +164,7 @@ CREATE PROFILE NOPARESDECURRAR LIMIT IDLE_TIME 2;
 
 > **10. Activa el uso de perfiles en ORACLE.**
 
-En la versión que usamos viene ya por defecto activado. De hecho vienen activados por defecto desde la versión de oracle 9i(2001). Se activaban de la siguiente forma:
+En la versión que usamos viene ya por defecto activado. De hecho vienen activados por defecto desde la versión de Oracle 9i (2001). Se activaban de la siguiente forma:
 
 ```bash
 netadm enable
@@ -289,7 +288,7 @@ WHERE PROFILE='DEFAULT';
 
 > **23. Muestra los nombres de los usuarios que tienen limitado el número de sesiones concurrentes.**
 
-No existe ningún perful con límite en mi sistema oracle por lo cual voy a cambiar el perfil creado "NOPARESDECURRAR" a 3 sesiones concurrentes, con:
+No existe ningún perfil con límite en mi sistema Oracle por lo cual voy a cambiar el perfil creado "NOPARESDECURRAR" a 3 sesiones concurrentes, con:
 
 ```sql
 ALTER PROFILE NOPARESDECURRAR LIMIT SESSIONS_PER_USER 3;
