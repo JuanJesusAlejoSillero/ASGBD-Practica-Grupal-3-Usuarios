@@ -2,6 +2,23 @@
 
 ## **Alumno 3 - MySQL y Oracle**
 
+**Tabla de contenidos:**
+
+- [**ASGBD - Práctica Grupal 3: Usuarios**](#asgbd---práctica-grupal-3-usuarios)
+	- [**Alumno 3 - MySQL y Oracle**](#alumno-3---mysql-y-oracle)
+	- [**MySQL**](#mysql)
+		- [**Ejercicio 1**](#ejercicio-1)
+		- [**Ejercicio 2**](#ejercicio-2)
+		- [**Ejercicio 3**](#ejercicio-3)
+		- [**Ejercicio 4**](#ejercicio-4)
+		- [**Ejercicio 5**](#ejercicio-5)
+		- [**Ejercicio 6**](#ejercicio-6)
+	- [**Oracle**](#oracle)
+		- [**Ejercicio 1**](#ejercicio-1-1)
+		- [**Ejercicio 2**](#ejercicio-2-1)
+
+---
+
 ## **MySQL**
 
 ### **Ejercicio 1**
@@ -10,7 +27,7 @@
 
 - Privilegios globales: Es el nivel más alto de privilegios.
 
-- Bases de datos: Incluye privilegios para administrar las bases de datos, cuentas de, usuarios, etc. 
+- Bases de datos: Incluye privilegios para administrar las bases de datos, cuentas de, usuarios, etc.
 
 - Privilegios de base de datos: Como tenemos mas de una base de datos este se refiere a una única Base de Datos.
 
@@ -59,16 +76,16 @@ revoke select on scott.emp to usuario@localhost
 
 Los roles se introdujeron en MariaDB 10.0.5 .
 
-**¿Para que sirven un ROL?** 
+**¿Para que sirven un ROL?**
 
 En resumen es mas mas fácil cambiar el rol que tienen asignado muchos usuarios a cambiar cada permiso usuario por usuario.
-
 
 Para crear un rol ejecutamos el siguiente comando;
 
 ```sql
 CREATE ROLE GESTION;
 ```
+
 ![2](img/Alumno%203/MySQL/2.png)
 
 Ahora hay que asignar derechos al rol que acabamos de crear de la misma manera que para un usuario.
@@ -91,7 +108,7 @@ Ahora entraremos como el usuario domin y intentaremos crear un usuario. No nos v
 
 ![5](img/Alumno%203/MySQL/5.png)
 
-Las diferencias entre MariaDB y Oracle son muy pocas ya que MariaDB pertenece a Oracle, y tiene mínimas diferencias en la gestión de roles. Algunas diferencias son que se pueden poner contraseñas a los roles. 
+Las diferencias entre MariaDB y Oracle son muy pocas ya que MariaDB pertenece a Oracle, y tiene mínimas diferencias en la gestión de roles. Algunas diferencias son que se pueden poner contraseñas a los roles.
 
 ### **Ejercicio 4**
 
@@ -99,10 +116,13 @@ Las diferencias entre MariaDB y Oracle son muy pocas ya que MariaDB pertenece a 
 
 Desde mariadb podemos aplicar restricciones a los usuarios de manera independiente estas son las siguientes.
 
-* Número de consultas que un usuario pueda hacer cada hora.
-* Número de updates que un usuario puede hacer cada hora.
-* Número de veces que un usuario puede acceder al servidor a la hora.
-* Número de conexiones simultaneas permitidas para cada usuario (como max_user_connections pero a nivel individual en lugar de global).
+- Número de consultas que un usuario pueda hacer cada hora.
+
+- Número de updates que un usuario puede hacer cada hora.
+
+- Número de veces que un usuario puede acceder al servidor a la hora.
+
+- Número de conexiones simultaneas permitidas para cada usuario (como max_user_connections pero a nivel individual en lugar de global).
 
 La sintaxis del comando seria la siguiente:
 
@@ -131,7 +151,8 @@ Para consultar los privilegios de un usuario en concreto ejecutaremos el siguien
 ```sql
 show grants for 'carlos';
 ```
-Como vemos de la practica anterior tenemos un privilegio llamado ‘Gestión’ que es el establecido anteriormente.
+
+Como vemos de la práctica anterior tenemos un privilegio llamado ‘Gestión’ que es el establecido anteriormente.
 
 ![6](img/Alumno%203/MySQL/6.png)
 
@@ -143,6 +164,8 @@ Para poder mirar quien puede consultar que tabla tenemos mysql.tables_priv en la
 En mi caso como no tengo ningún usuario que pueda mirar una tabla en concreto solo aparece el usuario system.
 
 ![7](img/Alumno%203/MySQL/7.png)
+
+---
 
 ## **Oracle**
 
@@ -197,5 +220,7 @@ begin
 end MostrarInfoPerfil;
 /
 ```
+
+---
 
 ✒️ **Documentación realizada por Carlos Manuel Gámez Pérez de Guzmán.**
