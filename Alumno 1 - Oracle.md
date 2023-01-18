@@ -43,10 +43,10 @@ alter session set "_ORACLE_SCRIPT"=true;
 
 > **1. Crea un rol ROLPRACTICA1 con los privilegios necesarios para conectarse a la base de datos, crear tablas y vistas e insertar datos en la tabla EMP de SCOTT.**
 
-    ```sql
-    CREATE ROLE ROLPRACTICA1;
-    GRANT CONNECT,CREATE TABLE,CREATE VIEW,INSERT ON SCOTT.EMP TO ROLPRACTICA1;
-    ```
+```sql
+CREATE ROLE ROLPRACTICA1;
+GRANT CONNECT,CREATE TABLE,CREATE VIEW,INSERT ON SCOTT.EMP TO ROLPRACTICA1;
+```
 
 ### **Ejercicio 2**
 
