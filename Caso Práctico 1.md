@@ -493,5 +493,7 @@ EXEC P_PRINCIPAL_PRIVILEGIOS_SISTEMA;
 ---
 
 ✒️ **Documentación realizada por Paco Diz Ureña.**
+
 ✒️ **Documentación realizada por Alejandro Montes Delgado.**
+
 ✒️ **Documentación realizada por Juan Jesús Alejo Sillero.**
