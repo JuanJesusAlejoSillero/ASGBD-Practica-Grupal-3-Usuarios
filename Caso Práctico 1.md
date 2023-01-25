@@ -20,6 +20,7 @@
 #### **Ejercicio 1**
 
 > **1. (Oracle, PostgreSQL, MySQL) Crea un usuario llamado Becario y, sin usar los roles de Oracle, dale los siguientes privilegios: (1,5 puntos)**
+> 
 > **- Conectarse a la base de datos.**
 >
 > **- Modificar el número de errores en la introducción de la contraseña de cualquier usuario.**
